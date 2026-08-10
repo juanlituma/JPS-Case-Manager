@@ -1,0 +1,45 @@
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.exe
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.deps.json
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.runtimeconfig.json
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.dll
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.pdb
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.AssemblyReference.cache
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.CaseDetailForm.resources
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.LoginForm.resources
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.MainForm.resources
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.GenerateResource.cache
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.AssemblyInfoInputs.cache
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.AssemblyInfo.cs
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.CoreCompileInputs.cache
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.sourcelink.json
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseM.AFCCFA2B.Up2Date
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.dll
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\refint\JPSCaseManager.dll
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.pdb
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.genruntimeconfig.cache
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\ref\JPSCaseManager.dll
+C:\Users\light\OneDrive\Desktop\Kuong_LAGCC\Spring26\MAC-110\JPS\JPS Case Management\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Properties.Resources.resources
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.AssemblyReference.cache
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.dll
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\refint\JPSCaseManager.dll
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.pdb
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.exe
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.deps.json
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.runtimeconfig.json
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.dll
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\JPSCaseManager.pdb
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.CaseDetailForm.resources
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.LoginForm.resources
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Forms.MainForm.resources
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.Properties.Resources.resources
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.GenerateResource.cache
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.AssemblyInfoInputs.cache
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.AssemblyInfo.cs
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.csproj.CoreCompileInputs.cache
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseM.AFCCFA2B.Up2Date
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\JPSCaseManager.genruntimeconfig.cache
+C:\Users\juani\Downloads\JPS_(U)Case_Management-main\JPS_Case_Management-main\Windows\JPSCaseManager\obj\Debug\net8.0-windows\ref\JPSCaseManager.dll
