@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JPS Case Management — Reports Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:       #0f1117;
+      --surface:  #1a1d27;
+      --card:     #22263a;
+      --border:   #2e3350;
+      --accent:   #4f8ef7;
+      --accent2:  #6ee7b7;
+      --accent3:  #f472b6;
+      --accent4:  #fbbf24;
+      --text:     #e2e8f0;
+      --muted:    #8892a4;
+      --radius:   14px;
+      --danger:   #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ════════════════════════════════
+       LOGIN PAGE
+    ════════════════════════════════ */
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(ellipse at 60% 20%, rgba(79,142,247,.12) 0%, transparent 60%),
+                  var(--bg);
+    }
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+    }
+    .login-logo {
+      width: 52px; height: 52px;
+      background: var(--accent);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 22px; color: #fff;
+      margin-bottom: 24px;
+    }
+    .login-box h2 {
+      font-size: 22px; font-weight: 700; margin-bottom: 4px;
+    }
+    .login-box p {
+      font-size: 13px; color: var(--muted); margin-bottom: 32px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 12px; font-weight: 600;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .06em;
+      margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .18s;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .field input::placeholder { color: #4a5068; }
+    .btn-login {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      transition: opacity .18s, transform .1s;
+      margin-top: 4px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-login:hover   { opacity: .88; }
+    .btn-login:active  { transform: scale(.98); }
+    .btn-login:disabled { opacity: .5; cursor: not-allowed; }
+    .login-error {
+      background: rgba(248,113,113,.1);
+      border: 1px solid rgba(248,113,113,.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--danger);
+      margin-bottom: 16px;
+      display: none;
+    }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ════════════════════════════════
+       DASHBOARD
+    ════════════════════════════════ */
+    #dashboard { display: none; }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .logo {
+      width: 38px; height: 38px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 17px; color: #fff; flex-shrink: 0;
+    }
+    header h1 { font-size: 19px; font-weight: 700; }
+    header .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .header-right {
+      margin-left: auto; display: flex; align-items: center; gap: 14px;
+    }
+    .user-badge {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px 5px 10px;
+    }
+    .user-avatar {
+      width: 26px; height: 26px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+    }
+    .user-name { font-size: 13px; font-weight: 600; }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* Loading overlay */
+    #loadingOverlay {
+      position: fixed; inset: 0;
+      background: rgba(15,17,23,.85);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px; z-index: 100;
+    }
+    .big-spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(79,142,247,.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    #loadingOverlay p { color: var(--muted); font-size: 14px; }
+    #loadProgress { color: var(--text); font-size: 13px; }
+
+    /* Error banner */
+    #errorBanner {
+      background: rgba(248,113,113,.1);
+      border-bottom: 1px solid rgba(248,113,113,.3);
+      padding: 12px 32px;
+      font-size: 13px; color: var(--danger);
+      display: none;
+    }
+    #errorBanner button {
+      background: none; border: none; color: var(--danger);
+      text-decoration: underline; cursor: pointer; margin-left: 12px;
+      font-size: 13px;
+    }
+
+    /* Main */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 24px 48px;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+
+    /* KPI row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+    }
+    .kpi .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .kpi .value { font-size: 32px; font-weight: 700; margin: 6px 0 2px; }
+    .kpi .change { font-size: 12px; color: var(--muted); }
+    .kpi .change.up   { color: #22c55e; }
+    .kpi .change.down { color: var(--danger); }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+    }
+    .card-header {
+      display: flex; align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 14px; margin-bottom: 22px;
+    }
+    .card-title   { font-size: 16px; font-weight: 700; }
+    .card-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+    /* Pills */
+    .pills { display: flex; gap: 6px; }
+    .pill {
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      transition: all .18s;
+    }
+    .pill:hover  { border-color: var(--accent); color: var(--accent); }
+    .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Chart wrap */
+    .chart-wrap { position: relative; width: 100%; }
+    .chart-wrap canvas { max-height: 320px; }
+
+    /* Two-col */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Pie layout */
+    .pie-layout {
+      display: flex; gap: 32px;
+      align-items: center; flex-wrap: wrap;
+    }
+    .pie-layout .chart-wrap { flex: 0 0 240px; }
+    .pie-layout .chart-wrap canvas { max-height: 240px; }
+    .legend { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 10px; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .legend-item .name  { font-size: 14px; flex: 1; }
+    .legend-item .pct   { font-size: 14px; font-weight: 700; }
+    .legend-item .cnt   { font-size: 12px; color: var(--muted); }
+
+    /* Resolve options */
+    .resolve-options { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .resolve-options select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px; padding: 5px 12px;
+      font-size: 12px; cursor: pointer;
+    }
+
+    /* Date picker row (shown only in Daily mode) */
+    .date-row {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: -10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .date-row.visible { display: flex; }
+    .date-row label { font-size: 12px; color: var(--muted); white-space: nowrap; }
+    .date-row input[type="date"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      transition: border-color .18s;
+      color-scheme: dark;
+    }
+    .date-row input[type="date"]:focus { border-color: var(--accent); }
+    .date-sep { color: var(--muted); font-size: 13px; }
+
+    /* Empty state */
+    .empty {
+      text-align: center; padding: 48px 0;
+      color: var(--muted); font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .pie-layout { flex-direction: column; }
+      .pie-layout .chart-wrap { flex: unset; width: 100%; }
+    }
+    @media (max-width: 540px) {
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      main     { padding: 16px 12px 40px; }
+      header   { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ LOGIN PAGE ═══════════════ -->
+<div id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">JPS</div>
+    <h2>Employee Sign In</h2>
+    <p>Sign in with your employee credentials to view the reports dashboard.</p>
+    <div class="login-error" id="loginError"></div>
+    <div class="field">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="e.g. john.doe" autocomplete="username" />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">
+      <div class="spinner" id="loginSpinner"></div>
+      <span id="loginBtnText">Sign In</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
+<div id="dashboard">
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <div class="big-spinner"></div>
+    <p>Loading cases from database…</p>
+    <div id="loadProgress"></div>
+  </div>
+
+  <!-- Error banner -->
+  <div id="errorBanner">
+    <span id="errorMsg"></span>
+    <button onclick="retryLoad()">Retry</button>
+  </div>
+
+  <header>
+    <div class="logo">JPS</div>
+    <div>
+      <h1>Case Management Reports</h1>
+      <div class="sub">Analytics &amp; Performance Dashboard</div>
+    </div>
+    <div class="header-right">
+      <div class="user-badge">
+        <div class="user-avatar" id="avatarInitial">?</div>
+        <span class="user-name" id="employeeName">Loading…</span>
+      </div>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- KPI row -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="label">Total Cases</div>
+        <div class="value" id="kpi-total">—</div>
+        <div class="change" id="kpi-total-sub"></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Open</div>
+        <div class="value" style="color:var(--accent3)" id="kpi-open">—</div>
+        <div class="change" id="kpi-open-sub"></div>
+      </div>
+      <div class="kpi">
+        <div class="label">In Progress</div>
+        <div class="value" style="color:var(--accent4)" id="kpi-inprog">—</div>
+        <div class="change" id="kpi-inprog-sub"></div>
+      </div>
+      <div class="kpi">
+        <div class="label">Resolved</div>
+        <div class="value" style="color:var(--accent2)" id="kpi-resolved">—</div>
+        <div class="change up" id="kpi-resolved-sub"></div>
+      </div>
+    </div>
+
+    <!-- Chart 1: Cases Opened / Resolved -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Cases Opened &amp; Resolved</div>
+          <div class="card-subtitle">Number of cases created vs. resolved over time</div>
+        </div>
+        <div class="pills" id="pills-cases">
+          <button class="pill" data-range="daily"   onclick="setFilter('cases','daily',  this)">Daily</button>
+          <button class="pill active" data-range="weekly"  onclick="setFilter('cases','weekly', this)">Weekly</button>
+          <button class="pill" data-range="monthly" onclick="setFilter('cases','monthly',this)">Monthly</button>
+        </div>
+      </div>
+      <div class="date-row" id="daterow-cases">
+        <label>From</label>
+        <input type="date" id="cases-from" onchange="onDateChange('cases')" />
+        <span class="date-sep">→</span>
+        <label>To</label>
+        <input type="date" id="cases-to"   onchange="onDateChange('cases')" />
+      </div>
+      <div class="chart-wrap"><canvas id="chartCases"></canvas></div>
+    </div>
+
+    <!-- Row: Pie + Resolve Time -->
+    <div class="two-col">
+
+      <!-- Chart 2: Delivery Provider Pie -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Delivery Provider Breakdown</div>
+            <div class="card-subtitle">% of cases by provider</div>
+          </div>
+          <div class="pills" id="pills-pie">
+            <button class="pill" data-range="daily"   onclick="setFilter('pie','daily',  this)">Daily</button>
+            <button class="pill active" data-range="weekly"  onclick="setFilter('pie','weekly', this)">Weekly</button>
+            <button class="pill" data-range="monthly" onclick="setFilter('pie','monthly',this)">Monthly</button>
+          </div>
+        </div>
+        <div class="date-row" id="daterow-pie">
+          <label>From</label>
+          <input type="date" id="pie-from" onchange="onDateChange('pie')" />
+          <span class="date-sep">→</span>
+          <label>To</label>
+          <input type="date" id="pie-to"   onchange="onDateChange('pie')" />
+        </div>
+        <div class="pie-layout">
+          <div class="chart-wrap"><canvas id="chartPie"></canvas></div>
+          <div class="legend" id="pieLegend"></div>
+        </div>
+      </div>
+
+      <!-- Chart 3: Resolve Time -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Case Resolve Time</div>
+            <div class="card-subtitle">Avg time from opened → resolved</div>
+          </div>
+          <div class="resolve-options">
+            <div class="pills" id="pills-resolve">
+              <button class="pill" data-range="daily"   onclick="setFilter('resolve','daily',  this)">Daily</button>
+              <button class="pill active" data-range="weekly"  onclick="setFilter('resolve','weekly', this)">Weekly</button>
+              <button class="pill" data-range="monthly" onclick="setFilter('resolve','monthly',this)">Monthly</button>
+            </div>
+            <select id="resolveUnit" onchange="renderResolve()">
+              <option value="hours">Hours</option>
+              <option value="days">Days</option>
+            </select>
+          </div>
+        </div>
+        <div class="date-row" id="daterow-resolve">
+          <label>From</label>
+          <input type="date" id="resolve-from" onchange="onDateChange('resolve')" />
+          <span class="date-sep">→</span>
+          <label>To</label>
+          <input type="date" id="resolve-to"   onchange="onDateChange('resolve')" />
+        </div>
+        <div class="chart-wrap"><canvas id="chartResolve"></canvas></div>
+      </div>
+
+    </div><!-- end two-col -->
+
+    <!-- Chart 4: Complaint Type Pie -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Complaint Type Breakdown</div>
+          <div class="card-subtitle">% of cases by complaint category</div>
+        </div>
+        <div class="pills" id="pills-complaint">
+          <button class="pill" data-range="daily"   onclick="setFilter('complaint','daily',  this)">Daily</button>
+          <button class="pill active" data-range="weekly"  onclick="setFilter('complaint','weekly', this)">Weekly</button>
+          <button class="pill" data-range="monthly" onclick="setFilter('complaint','monthly',this)">Monthly</button>
+        </div>
+      </div>
+      <div class="date-row" id="daterow-complaint">
+        <label>From</label>
+        <input type="date" id="complaint-from" onchange="onDateChange('complaint')" />
+        <span class="date-sep">→</span>
+        <label>To</label>
+        <input type="date" id="complaint-to"   onchange="onDateChange('complaint')" />
+      </div>
+      <div class="pie-layout">
+        <div class="chart-wrap"><canvas id="chartComplaint"></canvas></div>
+        <div class="legend" id="complaintLegend"></div>
+      </div>
+    </div>
+
+  </main>
+</div><!-- end dashboard -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════
+const API = 'http://192.168.66.4:8282';
+// const API = 'http://100.110.112.157:8282';
+
+// ═══════════════════════════════════════════════════════
+//  SESSION — persisted in localStorage so refresh keeps you logged in
+// ═══════════════════════════════════════════════════════
+const LS_KEY = 'jps_session';
+let SESSION = { token: null, employee: null };
+let CASES   = [];   // all fetched cases
+
+// ═══════════════════════════════════════════════════════
+//  LOGIN
+// ═══════════════════════════════════════════════════════
+// Allow Enter key on password field
+document.getElementById('password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+document.getElementById('username').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogin() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+  const errBox   = document.getElementById('loginError');
+  const btn      = document.getElementById('loginBtn');
+  const spinner  = document.getElementById('loginSpinner');
+  const btnText  = document.getElementById('loginBtnText');
+
+  errBox.style.display = 'none';
+  if (!username || !password) {
+    showLoginError('Please enter your username and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'Signing in…';
+
+  try {
+    const res = await fetch(`${API}/employees/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (res.status === 401) {
+      showLoginError('Incorrect username or password. Please try again.');
+      return;
+    }
+    if (res.status === 403) {
+      showLoginError('Your employee account has been disabled. Contact your administrator.');
+      return;
+    }
+    if (!res.ok) {
+      const detail = await res.json().catch(() => ({}));
+      showLoginError(detail.detail || `Login failed (HTTP ${res.status}).`);
+      return;
+    }
+
+    const data = await res.json();
+    SESSION.token    = data.access_token;
+    SESSION.employee = data.employee;
+
+    // Persist session so page refresh keeps user logged in
+    localStorage.setItem(LS_KEY, JSON.stringify(SESSION));
+
+    // Show dashboard
+    showDashboard(SESSION.employee);
+
+    // Fetch all cases
+    await loadAllCases();
+
+  } catch (err) {
+    showLoginError(`Cannot reach the server at ${API}. Check your network connection.`);
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = 'Sign In';
+  }
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function showDashboard(employee) {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  const name = employee.full_name || employee.username;
+  document.getElementById('employeeName').textContent  = name;
+  document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
+}
+
+// ═══════════════════════════════════════════════════════
+//  LOGOUT
+// ═══════════════════════════════════════════════════════
+function logout() {
+  SESSION = { token: null, employee: null };
+  CASES   = [];
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('dashboard').style.display  = 'none';
+  document.getElementById('loginPage').style.display  = 'flex';
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  // Destroy charts
+  [chartCases, chartPie, chartResolve].forEach(c => { if (c) c.destroy(); });
+  chartCases = chartPie = chartResolve = null;
+}
+
+// ═══════════════════════════════════════════════════════
+//  FETCH ALL CASES (paginated, max 100 per call)
+// ═══════════════════════════════════════════════════════
+async function loadAllCases() {
+  const overlay  = document.getElementById('loadingOverlay');
+  const progress = document.getElementById('loadProgress');
+  const errBanner = document.getElementById('errorBanner');
+  overlay.style.display  = 'flex';
+  errBanner.style.display = 'none';
+
+  try {
+    CASES = [];
+    const LIMIT = 100;
+    let   skip  = 0;
+    let   total = null;
+
+    do {
+      const res = await fetch(`${API}/cases?skip=${skip}&limit=${LIMIT}`, {
+        headers: { 'Authorization': `Bearer ${SESSION.token}` },
+      });
+
+      if (res.status === 401) {
+        logout();
+        showLoginError('Session expired. Please sign in again.');
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      total = data.total;
+      CASES.push(...data.cases);
+      skip += LIMIT;
+
+      progress.textContent = `Loaded ${CASES.length} of ${total} cases…`;
+    } while (CASES.length < total);
+
+    overlay.style.display = 'none';
+    buildDashboard();
+
+  } catch (err) {
+    overlay.style.display = 'none';
+    document.getElementById('errorMsg').textContent =
+      `Failed to load cases: ${err.message}. Check server connection.`;
+    errBanner.style.display = 'block';
+    console.error(err);
+  }
+}
+
+async function retryLoad() {
+  await loadAllCases();
+}
+
+// ═══════════════════════════════════════════════════════
+//  DASHBOARD BUILD
+// ═══════════════════════════════════════════════════════
+function buildDashboard() {
+  updateKPIs();
+  renderCases();
+  renderPie();
+  renderResolve();
+  renderComplaint();
+}
+
+// ─── KPIs ──────────────────────────────────────────────
+function updateKPIs() {
+  const total    = CASES.length;
+  const open     = CASES.filter(c => c.status === 'open').length;
+  const inprog   = CASES.filter(c => c.status === 'in_progress').length;
+  const resolved = CASES.filter(c => c.status === 'resolved').length;
+  const resRate  = total ? ((resolved / total) * 100).toFixed(1) : 0;
+
+  document.getElementById('kpi-total').textContent     = total;
+  document.getElementById('kpi-open').textContent      = open;
+  document.getElementById('kpi-inprog').textContent    = inprog;
+  document.getElementById('kpi-resolved').textContent  = resolved;
+
+  document.getElementById('kpi-total-sub').textContent    = 'All time';
+  document.getElementById('kpi-open-sub').textContent     = `${total ? ((open/total)*100).toFixed(1) : 0}% of total`;
+  document.getElementById('kpi-inprog-sub').textContent   = `${total ? ((inprog/total)*100).toFixed(1) : 0}% of total`;
+  document.getElementById('kpi-resolved-sub').textContent = `${resRate}% resolution rate`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  TIME HELPERS
+// ═══════════════════════════════════════════════════════
+const state = { cases: 'weekly', pie: 'weekly', resolve: 'weekly', complaint: 'weekly' };
+
+// Per-chart custom daily date range
+const dailyDates = {
+  cases:     { from: '', to: '' },
+  pie:       { from: '', to: '' },
+  resolve:   { from: '', to: '' },
+  complaint: { from: '', to: '' },
+};
+
+// Returns today as YYYY-MM-DD
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+// Returns YYYY-MM-DD for N days ago
+function daysAgoStr(n) {
+  const d = new Date(); d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+}
+
+function cutoffDate(range, chart) {
+  if (range === 'daily' && chart && dailyDates[chart].from) {
+    return new Date(dailyDates[chart].from + 'T00:00:00');
+  }
+  const d = new Date();
+  if (range === 'daily')   d.setDate(d.getDate() - 13);
+  if (range === 'weekly')  d.setDate(d.getDate() - 7 * 11);
+  if (range === 'monthly') d.setMonth(d.getMonth() - 11);
+  return d;
+}
+
+function bucketKey(isoString, range) {
+  const d = new Date(isoString);
+  if (range === 'monthly') return d.toISOString().slice(0, 7);
+  if (range === 'weekly') {
+    const day  = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    const mon  = new Date(d); mon.setDate(diff);
+    return mon.toISOString().slice(0, 10);
+  }
+  return d.toISOString().slice(0, 10);
+}
+
+function makeBuckets(range, chart) {
+  const now     = new Date();
+  const buckets = [];
+  if (range === 'daily') {
+    // Use custom date range if set, else default last 14 days
+    const fromStr = (chart && dailyDates[chart].from) ? dailyDates[chart].from : daysAgoStr(13);
+    const toStr   = (chart && dailyDates[chart].to)   ? dailyDates[chart].to   : todayStr();
+    const from    = new Date(fromStr + 'T00:00:00');
+    const to      = new Date(toStr   + 'T00:00:00');
+    for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
+      buckets.push(d.toISOString().slice(0, 10));
+    }
+    return buckets;
+  } else if (range === 'weekly') {
+    for (let i = 11; i >= 0; i--) {
+      const d   = new Date(); d.setDate(now.getDate() - i * 7);
+      const day = d.getDay();
+      const mon = new Date(d); mon.setDate(d.getDate() - day + (day === 0 ? -6 : 1));
+      buckets.push(mon.toISOString().slice(0, 10));
+    }
+  } else {
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(); d.setMonth(now.getMonth() - i);
+      buckets.push(d.toISOString().slice(0, 7));
+    }
+  }
+  return [...new Set(buckets)];
+}
+
+function labelBucket(key, range) {
+  if (range === 'monthly') {
+    const [y, m] = key.split('-');
+    return new Date(+y, +m - 1, 1).toLocaleString('default', { month: 'short', year: '2-digit' });
+  }
+  if (range === 'weekly') {
+    const d = new Date(key + 'T00:00:00');
+    return 'W of ' + d.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+  }
+  const d = new Date(key + 'T00:00:00');
+  return d.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART.JS DEFAULTS
+// ═══════════════════════════════════════════════════════
+Chart.defaults.color = '#8892a4';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+Chart.defaults.font.size   = 12;
+
+let chartCases   = null;
+let chartPie     = null;
+let chartResolve = null;
+
+// ═══════════════════════════════════════════════════════
+//  CHART 1 — Cases Opened / Resolved
+// ═══════════════════════════════════════════════════════
+function renderCases() {
+  const range   = state.cases;
+  const cutoff  = cutoffDate(range, 'cases');
+  const buckets = makeBuckets(range, 'cases');
+
+  const openMap    = Object.fromEntries(buckets.map(k => [k, 0]));
+  const resolveMap = Object.fromEntries(buckets.map(k => [k, 0]));
+
+  CASES.forEach(c => {
+    // Opened
+    const cd = new Date(c.created_at);
+    if (cd >= cutoff) {
+      const k = bucketKey(c.created_at, range);
+      if (k in openMap) openMap[k]++;
+    }
+    // Resolved — use updated_at as the resolve timestamp
+    if (c.status === 'resolved') {
+      const ud = new Date(c.updated_at);
+      if (ud >= cutoff) {
+        const k = bucketKey(c.updated_at, range);
+        if (k in resolveMap) resolveMap[k]++;
+      }
+    }
+  });
+
+  const labels   = buckets.map(k => labelBucket(k, range));
+  const opened   = buckets.map(k => openMap[k]);
+  const resolved = buckets.map(k => resolveMap[k]);
+
+  if (chartCases) chartCases.destroy();
+  chartCases = new Chart(document.getElementById('chartCases'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Opened',
+          data: opened,
+          backgroundColor: 'rgba(244,114,182,0.75)',
+          borderColor: '#f472b6',
+          borderWidth: 2, borderRadius: 6, borderSkipped: false,
+        },
+        {
+          label: 'Resolved',
+          data: resolved,
+          backgroundColor: 'rgba(110,231,183,0.75)',
+          borderColor: '#6ee7b7',
+          borderWidth: 2, borderRadius: 6, borderSkipped: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#e2e8f0', boxWidth: 14, padding: 20 } },
+        tooltip: { mode: 'index', intersect: false },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#8892a4' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,.07)' },
+          ticks: { color: '#8892a4', precision: 0 },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART 2 — Delivery Provider Pie
+// ═══════════════════════════════════════════════════════
+const PROVIDERS  = ['Uber','DoorDash','GrabHub','Self Delivery'];
+const PIE_COLORS = ['#4f8ef7','#f472b6','#6ee7b7','#fbbf24'];
+
+function renderPie() {
+  const range  = state.pie;
+  const cutoff = cutoffDate(range, 'pie');
+  const counts = Object.fromEntries(PROVIDERS.map(p => [p, 0]));
+
+  CASES.forEach(c => {
+    const cd = new Date(c.created_at);
+    if (cd >= cutoff && c.delivery_provider && c.delivery_provider in counts) {
+      counts[c.delivery_provider]++;
+    }
+  });
+
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const data  = PROVIDERS.map(p => counts[p]);
+  const pcts  = PROVIDERS.map(p => total ? ((counts[p] / total) * 100).toFixed(1) : '0.0');
+
+  if (chartPie) chartPie.destroy();
+
+  if (total === 0) {
+    document.getElementById('pieLegend').innerHTML =
+      '<div class="empty">No data for this period.</div>';
+    return;
+  }
+
+  chartPie = new Chart(document.getElementById('chartPie'), {
+    type: 'doughnut',
+    data: {
+      labels: PROVIDERS,
+      datasets: [{
+        data,
+        backgroundColor: PIE_COLORS,
+        borderColor: '#22263a',
+        borderWidth: 3,
+        hoverOffset: 8,
+      }],
+    },
+    options: {
+      cutout: '62%',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.raw} cases (${pcts[ctx.dataIndex]}%)`,
+          },
+        },
+      },
+    },
+  });
+
+  document.getElementById('pieLegend').innerHTML = PROVIDERS.map((p, i) => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${PIE_COLORS[i]}"></div>
+      <span class="name">${p}</span>
+      <span class="pct">${pcts[i]}%</span>
+      <span class="cnt">&nbsp;(${counts[p]})</span>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART 4 — Complaint Type Pie
+// ═══════════════════════════════════════════════════════
+const COMPLAINT_KEYS   = ['not_receive_food','food_bad_quality','missing_item','received_wrong_order'];
+const COMPLAINT_LABELS = ['Not Received','Bad Quality','Missing Item','Wrong Order'];
+const COMPLAINT_COLORS = ['#f97316','#a78bfa','#22d3ee','#fb7185'];
+
+let chartComplaint = null;
+
+function renderComplaint() {
+  const range  = state.complaint;
+  const cutoff = cutoffDate(range, 'complaint');
+  const counts = Object.fromEntries(COMPLAINT_KEYS.map(k => [k, 0]));
+
+  CASES.forEach(c => {
+    const cd = new Date(c.created_at);
+    if (cd >= cutoff && c.complaint_type && c.complaint_type in counts) {
+      counts[c.complaint_type]++;
+    }
+  });
+
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  const data  = COMPLAINT_KEYS.map(k => counts[k]);
+  const pcts  = COMPLAINT_KEYS.map(k => total ? ((counts[k] / total) * 100).toFixed(1) : '0.0');
+
+  if (chartComplaint) chartComplaint.destroy();
+
+  if (total === 0) {
+    document.getElementById('complaintLegend').innerHTML =
+      '<div class="empty">No data for this period.</div>';
+    return;
+  }
+
+  chartComplaint = new Chart(document.getElementById('chartComplaint'), {
+    type: 'doughnut',
+    data: {
+      labels: COMPLAINT_LABELS,
+      datasets: [{
+        data,
+        backgroundColor: COMPLAINT_COLORS,
+        borderColor: '#22263a',
+        borderWidth: 3,
+        hoverOffset: 8,
+      }],
+    },
+    options: {
+      cutout: '62%',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.raw} cases (${pcts[ctx.dataIndex]}%)`,
+          },
+        },
+      },
+    },
+  });
+
+  document.getElementById('complaintLegend').innerHTML = COMPLAINT_KEYS.map((k, i) => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${COMPLAINT_COLORS[i]}"></div>
+      <span class="name">${COMPLAINT_LABELS[i]}</span>
+      <span class="pct">${pcts[i]}%</span>
+      <span class="cnt">&nbsp;(${counts[k]})</span>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+//  CHART 3 — Resolve Time
+// ═══════════════════════════════════════════════════════
+function resolveHours(c) {
+  // Hours between created_at and updated_at (the moment status was set to resolved)
+  const created  = new Date(c.created_at).getTime();
+  const resolved = new Date(c.updated_at).getTime();
+  return Math.max(0, (resolved - created) / 3600000);
+}
+
+function renderResolve() {
+  const range   = state.resolve;
+  const cutoff  = cutoffDate(range, 'resolve');
+  const buckets = makeBuckets(range, 'resolve');
+  const unit    = document.getElementById('resolveUnit').value;
+  const divisor = unit === 'days' ? 24 : 1;
+
+  const sumMap = Object.fromEntries(buckets.map(k => [k, { sum: 0, cnt: 0 }]));
+
+  CASES.forEach(c => {
+    if (c.status !== 'resolved') return;
+    const ud = new Date(c.updated_at);
+    if (ud < cutoff) return;
+    const k = bucketKey(c.updated_at, range);
+    if (k in sumMap) {
+      sumMap[k].sum += resolveHours(c) / divisor;
+      sumMap[k].cnt++;
+    }
+  });
+
+  const labels = buckets.map(k => labelBucket(k, range));
+  const avgs   = buckets.map(k => {
+    const b = sumMap[k];
+    return b.cnt ? parseFloat((b.sum / b.cnt).toFixed(2)) : 0;
+  });
+
+  if (chartResolve) chartResolve.destroy();
+  chartResolve = new Chart(document.getElementById('chartResolve'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: `Avg Resolve Time (${unit})`,
+        data: avgs,
+        backgroundColor: 'rgba(79,142,247,0.7)',
+        borderColor: '#4f8ef7',
+        borderWidth: 2, borderRadius: 6, borderSkipped: false,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#e2e8f0', boxWidth: 14 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} ${unit}` } },
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#8892a4' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,.07)' },
+          ticks: { color: '#8892a4' },
+          beginAtZero: true,
+          title: { display: true, text: unit === 'days' ? 'Days' : 'Hours', color: '#8892a4' },
+        },
+      },
+    },
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  FILTER HANDLER
+// ═══════════════════════════════════════════════════════
+function setFilter(chart, range, btn) {
+  state[chart] = range;
+
+  // Toggle pill active state
+  document.querySelectorAll(`#pills-${chart} .pill`).forEach(p => {
+    p.classList.toggle('active', p.dataset.range === range);
+  });
+
+  // Show / hide the date-range row
+  const dateRow = document.getElementById(`daterow-${chart}`);
+  if (range === 'daily') {
+    dateRow.classList.add('visible');
+    // Pre-fill defaults if empty
+    const fromEl = document.getElementById(`${chart}-from`);
+    const toEl   = document.getElementById(`${chart}-to`);
+    if (!fromEl.value) fromEl.value = daysAgoStr(13);
+    if (!toEl.value)   toEl.value   = todayStr();
+    dailyDates[chart].from = fromEl.value;
+    dailyDates[chart].to   = toEl.value;
+  } else {
+    dateRow.classList.remove('visible');
+  }
+
+  if (chart === 'cases')     renderCases();
+  if (chart === 'pie')       renderPie();
+  if (chart === 'resolve')   renderResolve();
+  if (chart === 'complaint') renderComplaint();
+}
+
+// Called when a date input changes
+function onDateChange(chart) {
+  const fromEl = document.getElementById(`${chart}-from`);
+  const toEl   = document.getElementById(`${chart}-to`);
+  // Clamp: from must not exceed to
+  if (fromEl.value && toEl.value && fromEl.value > toEl.value) {
+    toEl.value = fromEl.value;
+  }
+  dailyDates[chart].from = fromEl.value;
+  dailyDates[chart].to   = toEl.value;
+  if (chart === 'cases')     renderCases();
+  if (chart === 'pie')       renderPie();
+  if (chart === 'resolve')   renderResolve();
+  if (chart === 'complaint') renderComplaint();
+}
+
+// ═══════════════════════════════════════════════════════
+//  AUTO-RESTORE SESSION ON PAGE LOAD
+// ═══════════════════════════════════════════════════════
+(async function init() {
+  const saved = localStorage.getItem(LS_KEY);
+  if (!saved) return; // no session — stay on login page
+
+  try {
+    const parsed = JSON.parse(saved);
+    if (!parsed.token || !parsed.employee) return;
+
+    SESSION.token    = parsed.token;
+    SESSION.employee = parsed.employee;
+
+    // Show dashboard immediately (no login flash)
+    showDashboard(SESSION.employee);
+
+    // Fetch fresh cases — if the token has expired the fetch will log us out
+    await loadAllCases();
+  } catch (e) {
+    localStorage.removeItem(LS_KEY); // corrupted data — clear it
+  }
+})();
+</script>
+</body>
+</html>
