@@ -1,21 +1,20 @@
-# Romero Tailors
+# JPS Case Manager SaaS
 
-A class project focused on developing an e-commerce website for a tailoring business, featuring seasonal clothing collections.
+A class project focused on designing a software solution to help restaurants manage and respond to customer complaints.
 
 ## 🛠️ Technologies
 
-* HTML
-* CSS
-* JavaScript
+* Swift — Mobile application
+* C# — Desktop application
+* Python — Backend development
+* SQL — Database management
 
-## ✨ Features
+## ✨ Purpose
 
-* Seasonal product categories
-* Product listings and shopping cart
-* Login and registration pages
-* Checkout interface
-* Contact and informational pages
+* Support restaurant staff in handling customer complaints.
+* Provide a software solution accessible through mobile and desktop applications.
+* Use a backend and database to support complaint-related information and workflows.
 
-## 🎯 Purpose
+## 🎯 Project Goal
 
-To apply front-end web development skills by building a functional e-commerce website as part of a college project.
+To explore cross-platform application development and backend integration through a customer support solution tailored to the restaurant industry.
